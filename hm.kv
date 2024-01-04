@@ -1,0 +1,20 @@
+manager:
+   Home:
+   First_screen:
+
+<Home>:
+   name:"Home"
+   Button:
+      text:"Click"
+      on_release:
+         app.root.current = "First"
+         root.manager.transition.direction = "left" 
+
+
+<First_screen>:
+   name:"First"
+   Button:
+      text:"Back"
+      on_release:
+         app.root.current = "Home"
+         root.manager.transition.direction = "right"  

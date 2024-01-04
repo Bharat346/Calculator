@@ -17,6 +17,9 @@ document.addEventListener("DOMContentLoaded",()=>{
             if(char === '='){
                 var val = document.getElementById('display').value;
                 console.log(val)
+                
+                //val = val.replace(/\s*\ln\s*\((\w+)\)/g,`Math.log($1)`);
+                
                 if (val.includes("Σ")) {
                     val = val.replace("Σ","Sigma")
                 }
@@ -38,28 +41,29 @@ document.addEventListener("DOMContentLoaded",()=>{
             }
         })
     })
-
+    y = 1;
     
     function change_char(str){
+        str = str.replace(/π\s*\^\s*(\d+)/g, 'Math.pow(Math.PI, $1)');
+        
+        if (str.includes("log")) {
+            //str = str.replace(/log\(([^]+)\)/g, `Math.log($1,10)`);
+            str = str.replace(/\s*\log\s*\(([^)]+)\)/g, 'Math.log($1, 10)');
+        }
+        str = str.replace(/\s*\ln\s*\(([^)]+)\)/g, 'Math.log($1)');
         str = str.replace(/\bsin\b/g, "Math.sin");
         str = str.replace(/\bcos\b/g, "Math.cos");
         str = str.replace(/\btan\b/g, "Math.tan");
         str = str.replace(/\barcsin\b/g, "Math.asin");
         str = str.replace(/\barccos\b/g, "Math.acos");
         str = str.replace(/\barctan\b/g, "Math.atan");
-        str = str.replace(/\bpi\b/g, "Math.PI");
+        str = str.replace(/π/g, "Math.PI");
         str = str.replace(/\be\b/g, "Math.exp(1)");
         //str = str.replace(/\blog(${x})\b/g, `Math.log(${x},10)`);
-        str = str.replace(/\bln\b/g,`Math.log`);
         
-        if (str.includes("log")) {
-            
-            //str = str.replace(/log\(([^]+)\)/g, `Math.log($1,10)`);
-            str = str.replace(/\s*\log\s*\((\w+)\)/g, 'Math.log($1, 10)');
-
-        }
         if (str.includes("^")) {
-            str = str.replace(/(\w+)\s*\^\s*(\w+)/g, 'Math.pow($1, $2)');
+            str = str.replace(/\(([^)]+)\s*\^\s*([^)]+)\)/g, `Math.pow($1, $2)`);
+
         }
         if (str.includes("!")) {
             str = str.replace(/(\w+)\s*\!\s*/g,`factorial($1)`)

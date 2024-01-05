@@ -19,7 +19,10 @@ document.addEventListener("DOMContentLoaded",()=>{
                 console.log(val)
                 
                 //val = val.replace(/\s*\ln\s*\((\w+)\)/g,`Math.log($1)`);
-                
+                val = change_char(val)
+                console.log(val)
+
+
                 if (val.includes("Σ")) {
                     val = val.replace("Σ","Sigma")
                 }
@@ -29,8 +32,7 @@ document.addEventListener("DOMContentLoaded",()=>{
                 if (val.includes("∫")) {
                     val = val.replace("∫","Inte")
                 }
-                val = change_char(val)
-                console.log(val)
+                
                 try {
                     
                     document.getElementById('display').value = eval(val);
@@ -41,16 +43,20 @@ document.addEventListener("DOMContentLoaded",()=>{
             }
         })
     })
-    y = 1;
+    
     
     function change_char(str){
         str = str.replace(/π\s*\^\s*(\d+)/g, 'Math.pow(Math.PI, $1)');
-        
+        //str = str.replace(/y/g,y);
         if (str.includes("log")) {
             //str = str.replace(/log\(([^]+)\)/g, `Math.log($1,10)`);
             str = str.replace(/\s*\log\s*\(([^)]+)\)/g, 'Math.log($1, 10)');
         }
+        str = str.replace(/\(([^]+)\)\(([^]+)\)/g,`($1*$2)`)
+        str = str.replace(/(\d+)([a-zA-ZπΣ]+)/g, '$1*$2');
+        str = str.replace(/([a-zA-XZ]+)/g,"y")
         str = str.replace(/\s*\ln\s*\(([^)]+)\)/g, 'Math.log($1)');
+
         str = str.replace(/\bsin\b/g, "Math.sin");
         str = str.replace(/\bcos\b/g, "Math.cos");
         str = str.replace(/\btan\b/g, "Math.tan");
@@ -102,6 +108,7 @@ document.addEventListener("DOMContentLoaded",()=>{
         let u = Number.parseInt(document.getElementById("sigmaLimit2").value);
         exp = document.getElementById("display").value;
         console.log(exp);
+        exp = change_char(exp)
         exp = exp.replace("Σ","");
         
         exp = change_char(exp)

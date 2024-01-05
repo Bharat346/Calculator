@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded",()=>{
         }
         str = str.replace(/\(([^]+)\)\(([^]+)\)/g,`($1*$2)`)
         str = str.replace(/(\d+)([a-zA-ZπΣ]+)/g, '$1*$2');
-        str = str.replace(/([a-zA-XZ]+)/g,"y")
+        
         str = str.replace(/\s*\ln\s*\(([^)]+)\)/g, 'Math.log($1)');
 
         str = str.replace(/\bsin\b/g, "Math.sin");

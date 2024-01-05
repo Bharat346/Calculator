@@ -135,7 +135,27 @@ document.addEventListener("DOMContentLoaded",()=>{
         return result;
     }
 
-    
+    function Lim(exp){
+        exp = document.getElementById("display").value;
+        console.log(exp);
+        exp = exp.replace("Lim","");
+        exp = change_char(exp)
+        console.log(exp);
+        let l = Number.parseInt(document.getElementById("sigmaLimit3").value);
+        function f(y){
+            return eval(exp,{y});
+        }
+        console.log(exp)
+        const L = f(l-0.00001);
+        const R = f(l+0.00001);
+
+        const limit = (L+R)/2;
+
+        console.log("Limit : ",limit);
+        const roundedLimit = limit.toFixed(1);
+        console.log("Round-Limit : ",roundedLimit);
+        return roundedLimit;
+    }
     
     
 })

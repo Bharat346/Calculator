@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculator</title>
+    <style>
+      .calculator {
+        width: 400px;
+        margin: 50px auto;
+        border: 2px solid #333;
+        border-radius: 10px;
+        padding: 10px;
+        background-color: #222;
+        color: #fff;
+        font-family: Arial, sans-serif;
+      }
+
+      .display {
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 5px;
+        font-size: 20px;
+        text-align: right;
+        background-color: #444;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+      }
+
+      .keyboard {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+      }
+
+      .row {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      button {
+        padding: 15px;
+        font-size: 17px;
+        background-color: #555;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        color: #fff;
+      }
+
+      button:hover {
+        background-color: #666;
+      }
+
+      .number-btn,
+      .operator-btn,
+      .function-btn,
+      .constant-btn,
+      .equal-btn {
+        background-color: #333;
+      }
+      .blue {
+        background-color: rgb(16, 121, 234);
+      }
+      .blue:hover {
+        background-color: rgb(41, 100, 164);
+      }
+
+      .equal-btn {
+        background-color: #f00;
+      }
+
+      .equal-btn:hover {
+        background-color: #c00;
+      }
+      .Angle {
+        margin-bottom: 10px;
+        text-align: center;
+      }
+      .botom{
+        grid-column: span 4;
+      }
+      .cbtn{
+        background-color: rgb(48, 171, 48);
+      }
+      .field{
+        width: 400px;
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        text-align: center;
+        margin: 10px;
+        display: none;
+      }
+      #sigmaMin{
+        background-color: #333;
+        color: rgb(109, 23, 238);
+        font-size: 17px;
+        width: 25%;
+      }
+      #sigmaMax{
+        background-color: #333;
+        color: rgb(109, 23, 238);
+        font-size: 17px;
+        width: 25%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="calculator">
+      <input type="text" id="display" class="display" readonly />
+      <div class="Angle">
+        Angle:
+        <label for="rad"
+          ><input type="radio" name="angle" id="rad" />radian</label
+        >
+        <label for="deg"
+          ><input type="radio" name="angle" id="deg" />degree</label
+        >
+      </div>
+      <div class="field">
+        <span>Min : <input type="number" name="num1" id="sigmaMin" value="1"></span>
+        <span>Max : <input type="number" name="num1" id="sigmaMax" value="100"></span>
+      </div>
+
+      <div class="keyboard" id="main-keyboard">
+        <!-- Main Keyboard -->
+        <button class="number-btn" onclick="append('9')">9</button>
+        <button class="number-btn" onclick="append('8')">8</button>
+        <button class="number-btn" onclick="append('7')">7</button>
+        <button class="number-btn cbtn" onclick="append('C')">C</button>
+        <button class="number-btn" onclick="append('6')">6</button>
+        <button class="number-btn" onclick="append('5')">5</button>
+        <button class="operator-btn" onclick="append('4')">4</button>
+        <button class="backspace-btn" onclick="backspace()">⌫</button>
+        <button class="number-btn" onclick="append('3')">3</button>
+        <button class="number-btn" onclick="append('2')">2</button>
+        <button class="number-btn" onclick="append('1')">1</button>
+        <button class="number-btn" onclick="append('.')">.</button>
+        <button class="number-btn" onclick="append('0')">0</button>
+        <button class="operator-btn" onclick="append('+')">+</button>
+        <button class="operator-btn" onclick="append('-')">-</button>
+        <button class="operator-btn" onclick="append('*')">x</button>
+        <button class="operator-btn" onclick="append('/')">/</button>
+        <button class="function-btn" onclick="append('(')">(</button>
+        <button class="function-btn" onclick="append(`)`)">)</button>
+        <button class="function-btn" onclick="append(',')">,</button>
+        <button class="equal-btn" onclick="calculateResult()">=</button>
+        <button class="function-btn blue botom" onclick="changeKeyboard()">Fn</button>
+      </div>
+      <div class="keyboard" id="function-keyboard" style="display: none">
+        <!-- Function Keyboard -->
+        <button class="function-btn" onclick="append('sin(')">sin</button>
+        <button class="function-btn" onclick="append('cos(')">cos</button>
+        <button class="function-btn" onclick="append('tan(')">tan</button>
+        <button class="function-btn" onclick="append('asini(')">
+          sin<sup>-1</sup>
+        </button>
+        <button class="function-btn" onclick="append('acosi(')">
+          cos<sup>-1</sup>
+        </button>
+        <button class="function-btn" onclick="append('atani(')">
+          tan<sup>-1</sup>
+        </button>
+        <button class="function-btn" onclick="append('log')">log</button>
+        <button class="constant-btn" onclick="append('π')">π</button>
+        <button class="constant-btn" onclick="append('Math.E')">e</button>
+        <button class="function-btn" onclick="append('√')">√</button>
+        <button class="function-btn" onclick="append('!')">!</button>
+        <button class="operator-btn" onclick="append('^')">^</button>
+        <button class="function-btn" onclick="append('ln')">ln</button>
+        <button class="function-btn" onclick="append('∛')">∛</button>
+        <button class="function-btn" onclick="append('Bin(')">Bin</button>
+        <button class="function-btn" onclick="append('Hex(')">Hex</button>
+        <button class="function-btn" onclick="append('Oct(')">Oct</button>
+        <button class="function-btn" onclick="append('C(')">C(n,r)</button>
+        <button class="function-btn" onclick="append('P(')">P(n,r)</button>
+        <button class="function-btn sbtn" onclick="append('Σ(')">Σ</button>
+        <button class="function-btn sbtn" onclick="append('y')">y</button>
+        <button class="function-btn blue botom" onclick="changeKeyboard()">
+          ABC
+        </button>
+      </div>
+    </div>
+    <script>
+      const keyboard1 = document.getElementById("main-keyboard");
+      const keyboard2 = document.getElementById("function-keyboard");
+      const rad = document.getElementById("rad");
+      const deg = document.getElementById("deg");
+      deg.click();
+      const input = document.getElementById("display");
+      let y;
+      const field = document.querySelector(".field")
+
+      function changeKeyboard() {
+        if (keyboard2.style.display === "none") {
+          keyboard1.style.display = "none";
+          keyboard2.style.display = "grid"; // Change display to "grid"
+        } else if (keyboard2.style.display === "grid") {
+          keyboard2.style.display = "none";
+          keyboard1.style.display = "grid"; // Change display to "grid"
+        }
+      }
+
+      function append(str) {
+        console.log(str);
+        // console.log(input.textContent);
+        if (str === "C") {
+          input.value = "";
+          field.style.display = "none";
+        }else if (str === "Σ(") {
+          input.value += "Σ(";
+          field.style.display = "block"
+          console.log("submition called");
+        }else {
+          input.value += str;
+        }
+      }
+
+      function backspace() {
+        let a = input.value;
+        // console.log(typeof(a));
+        if (a.length > 0) {
+          // Remove the last character
+          input.value = a.substring(0, a.length - 1);
+        }
+      }
+
+      function fact(num) {
+        let mult = 1;
+        for (let i = 1; i <= num; i++) {
+          mult *= i;
+        }
+        return mult;
+      }
+
+      function C(n,r) {
+        let den = fact(n-r)*fact(r);
+        return fact(n)/den ;
+      }
+
+      function P(n,r) {
+        return fact(n)/fact(n-r) ;
+      }
+
+      function Bin(num){
+        let number = parseInt(num);
+        return number.toString(2);
+      }
+
+      function Oct(num){
+        let number = parseInt(num);
+        return number.toString(8);
+      }
+
+      function Hex(num){
+        let number = parseInt(num);
+        return number.toString(16).toUpperCase();
+      }
+
+      function Σ(str2) {
+    let sum = 0;
+    const min = parseInt(document.getElementById("sigmaMin").value);
+    const max = parseInt(document.getElementById("sigmaMax").value);
+    let str = document.getElementById("display").value;
+    str = str.replace("Σ","")
+    str = replace_exp(str);
+    
+    console.log(str);
+    if (!isNaN(min) && !isNaN(max)) {
+        for (let i = min; i <= max; i++) {
+            let replacedStr = str.replace(/y/g, i); // Replace 'y' with the current value of i
+            sum += eval(replacedStr); // Evaluate the expression after replacing 'y'
+        }
+        return sum;
+    }
+}
+      function calculateResult() {
+        let exp = input.value;
+        let expr = replace_exp(exp);
+        let result = eval(expr);
+        console.log(result);
+        field.style.display = "none";
+        input.value = result;
+      }
+
+      function replace_exp(exp = "Hello") {
+        // let exp = input.value;
+        // exp = exp.replace(/e/g, "Math.E");
+        exp = exp.replace(/π/g, "Math.PI");
+        // Replace sin, cos, and tan with Math.sin, Math.cos, and Math.tan respectively
+        exp = exp.replace(/√(?:\((\w+)\)|(\w+))/g, "Math.cbrt($1$2)");
+        exp = exp.replace(/∛(?:\((\w+)\)|(\w+))/g, "Math.cbrt($1$2)");
+        exp = exp.replace(/(\w+)!/g, "fact($1)");
+        exp = exp.replace(/log\(([^)]+)\)/g, "Math.log10($1)");
+        exp = exp.replace(/ln\(([^)]+)\)/g, "Math.log($1)");
+        exp = exp.replace(/sin\(([^)]+)\)/g, "Math.sin(Angle_change($1))");
+        exp = exp.replace(/cos\(([^)]+)\)/g, "Math.cos(Angle_change($1))");
+        exp = exp.replace(/tan\(([^)]+)\)/g, "Math.tan(Angle_change($1))");
+
+        // Replace arcsin, arccos, and arctan with Math.asin, Math.acos, and Math.atan respectively
+        exp = exp.replace(/asini\(([^)]+)\)/g, "(180/Math.PI) * Math.asin($1)");
+        exp = exp.replace(/acosi\(([^)]+)\)/g, "(180/Math.PI) * Math.acos($1)");
+        exp = exp.replace(/atani\(([^)]+)\)/g, "(180/Math.PI) * Math.atan($1)");
+        // Regular expression pattern to match all possibilities
+        const regExp = /\(?(\w+(\.\w+)?)\)?\s*\^\s*\(?(\w+(\.\w+)?)\)?/g;
+
+        exp = exp.replace(regExp, "(Math.pow($1,$3))");
+        console.log(exp);
+        console.log(rad.checked);
+        return exp;
+      }
+
+      function Angle_change(y) {
+        if (deg.checked) {
+          let factor = Math.PI / 180;
+          console.log(factor * y);
+          return factor * y;
+        } else {
+          return y;
+        }
+      }
+
+      document.addEventListener("keydown", function (event) {
+        const key = event.key;
+        switch (key) {
+          case "0":
+          case "1":
+          case "2":
+          case "3":
+          case "4":
+          case "5":
+          case "6":
+          case "7":
+          case "8":
+          case "9":
+          case ".":
+          case "+":
+          case "-":
+          case "*":
+          case "/":
+          case "(":
+          case ")":
+          case "^":
+          case ",":
+            append(key); 
+            break;
+          case "Enter":
+            calculateResult(); 
+            break;
+          case "Backspace":
+            backspace(); 
+            break;
+          case "Escape":
+            input.value = ""; 
+            break;
+          default:
+            break;
+        }
+      });
+    </script>
+  </body>
+</html>
